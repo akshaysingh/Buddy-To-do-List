@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="oroLite">
+  <head>
+    <title>Buddy- to do list</title>
+    <meta charset="UTF-8">
+  <script src="/bower_components/angular/angular.min.js"></script>
+  <script src="/bower_components/angular-route/angular-route.min.js"></script>
+    
+      <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- <script src="/javascripts/app.js"></script> -->
+  <script src="/javascripts/indexCtrl.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.css">
+    <link rel="stylesheet" href="/bower_components/angular-bootstrap/ui-bootstrap-csp.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css">
+  </head>
+  <style type="text/css">
+      .test {
+        width: 180px;
+        margin: 0 auto;
+    }
+    .test1 {
+        margin-left: 200px;
+    }
+  </style>
+  <body ng-controller="indexCtrl">
+ <button ng-show="loggedIn" class="btn btn-warning" style="margin-left: 90%;" ng-click="logout()">Logout</button>
+<!--     <div ng-if="loading">
+        <div class="ajax-loader-div">
+        </div>
+        <img src="images/balls.gif" class="ajax-loader">
+    </div> -->
+    <div class="container-fluid">
+        <div  class="ng-controller">
+         <header>
+        <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/"></a>
+            </div>
+
+            <ul ng-show="user_block" class="nav navbar-nav ">
+                <li> <button class="btn btn-warning" style=" margin-left: 5px; margin-top: 5px;" ng-click="showMyList()">My List</button></li>
+                <li> <button class="btn btn-warning" style=" margin-left: 5px;  margin-top: 5px;" ng-click="showAddNewBuddyDiv()">Add New Buddy List</button></li>
+                <li> <button class="btn btn-warning" style=" margin-left: 5px;  margin-top: 5px;" ng-click="mybuddies()">My Buddies</button></li>
+            </ul>
+        </div>
+        </nav>
+    </header>
+    <div ng-show="login_block" class="test">
+    <h4   style=" margin-left: 5px;">Login to continue</h4>
+        <input type="text" name="login_email" style="padding: 2px; margin: 5px;" ng-model = "login_email" placeholder="Email" />
+        <input type="password" name="initial_password"  style="padding: 2px; margin: 5px;" placeholder="password" ng-model = "initial_password"/>
+        <br><br>
+        <button class="btn btn-warning"  style=" margin-left: 5px;" ng-click="getInitialCheck(login_email,initial_password)">Add</button>
+    </div>
+        
+    <div ng-show="admin_block" class="test">
+        <h4>Add new Users</h4>
+        <input type="text" name="new_email" style="padding: 2px; margin: 5px;" ng-model = "new_email" placeholder="Email" />
+        <input type="password" name="new_password"  style="padding: 2px; margin: 5px;" placeholder="password" ng-model = "new_password"/>
+        <br><br>
+        <button class="btn btn-warning"  style=" margin-left: 5px;" ng-click="addNewUser(new_email,new_password)">Add</button>
+    </div>
+
+    <div ng-show="user_block" >
+      <div ng-show="show_my_list_div">
+        <h4>My todo List</h4>
+        <table class="table table-hover table-bordered bxshadow" style="width: 900px;" >
+          <thead>
+              <tr>
+              <th  style="width:100px;">S No.</th>
+              <th style="width: 200px;">Buddy's email</th>
+              <th style="width: 300px;">List Name</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="eachElement in myList">
+                  <td>{{$index + 1 }}</td>
+                  <td>{{eachElement.createdBy}}</td>
+                  <td ng-click = "showMyTasks(eachElement)"><a href="#">{{eachElement.name}}</a></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      <div ng-show = "add_new_nuddy_list_div" style="margin-left: 20px;">
+        <h4>Add new Buddy To-do list</h4>
+        <input type="text" name="buddy_email" style="padding: 2px; margin: 5px;" ng-model = "buddy_email" placeholder="Buddy's Email" />
+        <br>
+        <input type="text" name="list_name"  style="padding: 2px; margin: 5px;" placeholder="Name of the  list" ng-model = "list_name"/>
+        <br><br>
+        <button class="btn btn-warning"  style=" margin-left: 5px;" ng-click="addNewBuddyList(buddy_email,list_name)">Add</button>
+      </div>
+
+      <div ng-show = "my_buddies_div">
+        <h4>Buddy to-do list</h4>
+        <table class="table table-hover table-bordered bxshadow" style="width: 900px;" >
+          <thead>
+              <tr>
+              <th  style="width:100px;">S No.</th>
+              <th style="width: 200px;">Email</th>
+              <th style="width: 300px;">List Name</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="eachElement in buddyList">
+                  <td>{{$index + 1 }}</td>
+                  <td>{{eachElement.createdFor}}</td>
+                  <td ng-click = "showTasks(eachElement)"><a href="#">{{eachElement.name}}</a></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+
+        <div ng-show = "task_list_div">
+          <h4>To-do List</h4>
+          <table class="table table-hover table-bordered bxshadow" style="width: 900px;" >
+            <thead>
+                <tr>
+                <th  style="width:100px;">S No.</th>
+                <th style="width: 200px;">Todos</th>
+                <th style="width: 300px;">Action/Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="eachElement in tasks">
+                    <td>{{$index + 1 }}</td>
+                    <td >{{eachElement.taskName}}</td>
+                    <td>{{eachElement.status}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="text" placeholder="Enter new todo" ng-model="new_task_name" ng-init="" name="new_task_name" value="" /></td>
+                    <td>
+                      <button class="btn btn-success" ng-click="addNewTask(new_task_name)">Add New</button>
+                    </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+        <div ng-show = "my_task_list_div">
+          <h4>My To-do List Tasks</h4>
+          <table class="table table-hover table-bordered bxshadow" style="width: 900px;" >
+            <thead>
+                <tr>
+                <th  style="width:100px;">S No.</th>
+                <th style="width: 200px;">Todos</th>
+                <th style="width: 300px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="eachElement in tasks" ng-if="eachElement.status == 'new'">
+                    <td>{{$index + 1 }}</td>
+                    <td >{{eachElement.taskName}}</td>
+                    <td ng-click="markDone(eachElement.taskName)"><a href="#">Mark Done</a></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+
+
+  </body>
+
+</html>

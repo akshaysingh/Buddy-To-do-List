@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="oroLite">
+  <head>
+    <title>Oro Partners Admin Console</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.css">
+    <link rel="stylesheet" href="/bower_components/angular-bootstrap/ui-bootstrap-csp.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css">
+  </head>
+  <body ng-controller="topicsCtrl">
+<!--     <div ng-if="loading">
+        <div class="ajax-loader-div">
+        </div>
+        <img src="images/balls.gif" class="ajax-loader">
+    </div> -->
+    <div class="container-fluid">
+        <div  class="ng-controller">
+        <div ng-if = "showIfa">
+            <div style="padding-top: 60px" autoscroll="true" class="ng-view"></div>
+                <table class="table table-hover table-bordered bxshadow" style="width: 900px;" ng-hide="!showme">
+                    <thead>
+                        <tr>
+                        <th  style="width:100px;">S No.</th>
+                        <th style="width: 200px;">Site Name</th>
+                        <th style="width: 300px;">Link</th>
+                        <th style="width: 300px;">Logo Link</th>
+                        <th style="width: 300px;">Status</th>
+                        <th style="width: 500px;">Back Color</th>
+
+                        <th style="width: 500px;">Modify</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="ifa in values">
+                            <td>{{$index + 1 }}</td>
+                            <td><input type="text" ng-model="site_name" ng-init="site_name='{{ifa.name}}'" name="site_name" value="{{ifa.name}}"  /></td>
+                            <td><input type="text" ng-model="site_link" name="site_link" value={{ifa.link}}
+                            placeholder="{{ifa.link}}" ng-init="site_link='{{ifa.link}}'" /></td>
+                            <td><input type="text" ng-model="img_link" name="img_link" value={{ifa.img_link}}
+                            placeholder="{{ifa.img_link}}" ng-init="img_link='{{ifa.img_link}}'" /></td>
+                            <td>{{ifa.status}}</td>
+                            <td><input type="text" ng-model="back_color" name="back_color" value={{ifa.back_color}}
+                            placeholder="{{ifa.back_color}}" ng-init="back_color='{{ifa.back_color}}'" /></td>
+                             <td>
+                                <button class="btn btn-warning" ng-click="modifyMe($index,site_name,site_link,img_link,back_color)">Update</button>
+                                <button class="btn btn-danger" ng-click="deleteMe($index)">Delete</button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-if = "showClients">
+                <!-- <img ng-click="getBack();" src="images/back.png">   -->
+                <button class="btn-success btn" ng-click="getBack()">Back</button>
+                <div style="padding-top: 60px" autoscroll="true" class="ng-view"></div>
+                <table class="table table-hover table-bordered bxshadow" style="width: 900px;" ng-hide="!showme">
+                    <thead>
+                        <tr>
+                        <th  style="width:100px;">S No.</th>
+                        <th style="width: 200px;">Client Name</th>
+                        <th style="width: 300px;">Email ID</th>
+                        <th style="width: 200px;">paymentStatus</th><!-- 
+                        <th style="width: 300px;">Status</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="ifa1 in clientVales">
+                            <td>{{$index + 1 }}</td>
+                            <td>{{ifa1.name}}</td>
+                            <td>{{ifa1.emailId}}</td>
+                            <td>{{ifa1.paymentStatus}}</td>
+                            <!-- 
+                            <td>{{ifa1.status}}</td> -->
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>
+      <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/angular/angular.min.js"></script>
+  <script src="/bower_components/angular-route/angular-route.min.js"></script>
+  <!-- <script src="/javascripts/app.js"></script> -->
+  <script src="/javascripts/topicsCtrl.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  </body>
+
+</html>
